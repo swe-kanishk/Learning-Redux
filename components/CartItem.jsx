@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux"
+import { useDispatch } from "../react-redux"
 import { decreaseCartItemQty, increaseCartItemQty } from "../store/cartReducer"
 
 export default function CartItem({ title, productId, rating, price, imageUrl, quantity }) {

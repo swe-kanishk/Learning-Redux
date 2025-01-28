@@ -3,7 +3,7 @@ import App from "./App"
 import Home from "./pages/Home"
 import Cart from "./pages/Cart"
 import { store } from "./store"
-import { Provider } from "react-redux"
+import { Provider } from "./react-redux"
 import { createRoot } from "react-dom/client"
 
 const router = createBrowserRouter([
