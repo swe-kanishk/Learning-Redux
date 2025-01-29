@@ -1,5 +1,5 @@
 import { useDispatch } from "../react-redux"
-import { cartAddItem } from "../store/cartReducer"
+import { cartAddItem } from "../store/slices/cartSlice"
 
 export default function Product({ title, rating, productId, price, imageUrl }) {
     const dispatch = useDispatch()
