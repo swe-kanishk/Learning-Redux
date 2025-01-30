@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { myCreateSlice } from "../../redux-toolkit";
 
 const findExistingItemIndex = (state, action) => state.findIndex(cartItem => cartItem.productId === action.payload.productId)
 
-const slice = createSlice({
+const myslice = myCreateSlice({
   name: 'cart',
   initialState: [],
   reducers: {
@@ -28,8 +28,7 @@ const slice = createSlice({
           state.splice(existingItemIndex, 1)
         }
     },
-  }
-})
+}})
 
-export const {cartAddItem, cartRemoveItem, increaseCartItemQty, decreaseCartItemQty } = slice.actions
-export default slice.reducer
+export const {cartAddItem, cartRemoveItem, increaseCartItemQty, decreaseCartItemQty } = myslice.actions
+export default myslice.reducer
