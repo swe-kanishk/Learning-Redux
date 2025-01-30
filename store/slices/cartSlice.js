@@ -1,34 +1,49 @@
-import { myCreateSlice } from "../../redux-toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const findExistingItemIndex = (state, action) => state.findIndex(cartItem => cartItem.productId === action.payload.productId)
 
-const myslice = myCreateSlice({
+const slice = createSlice({
   name: 'cart',
-  initialState: [],
+  initialState: {
+    loading: false,
+    list: [],
+    error: ''
+  },
   reducers: {
+    fetchCartItems(state) {
+      state.loading = true
+    },
+    fetchCartItemsError(state, action){
+      state.loading = false
+      state.error = action.payload || 'something went wrong!'
+    },
+    loadCartItems(state, action) {
+      state.loading = false
+      state.list = action.payload.products
+    },
     cartAddItem(state, action) {
-      const existingItemIndex = findExistingItemIndex(state, action)
+      const existingItemIndex = findExistingItemIndex(state.list, action)
       if(existingItemIndex !== -1) {
-        state[existingItemIndex].quantity += 1;
+        state.list[existingItemIndex].quantity += 1;
       }
-      else state.push({...action.payload, quantity: 1})
+      else state.list.push({...action.payload, quantity: 1})
     },
     cartRemoveItem(state, action) {
-      const existingItemIndex = findExistingItemIndex(state, action)
-      state.splice(existingItemIndex, 1)
+      const existingItemIndex = findExistingItemIndex(state.list, action)
+      state.list.splice(existingItemIndex, 1)
     },
     increaseCartItemQty(state, action) {
-      const existingItemIndex = findExistingItemIndex(state, action)
-      state[existingItemIndex].quantity += 1;
+      const existingItemIndex = findExistingItemIndex(state.list, action)
+      state.list[existingItemIndex].quantity += 1;
     },
     decreaseCartItemQty(state, action) {
-      const existingItemIndex = findExistingItemIndex(state, action)
-      state[existingItemIndex].quantity -= 1;
-        if(state[existingItemIndex].quantity === 0) {
-          state.splice(existingItemIndex, 1)
+      const existingItemIndex = findExistingItemIndex(state.list, action)
+      state.list[existingItemIndex].quantity -= 1;
+        if(state.list[existingItemIndex].quantity === 0) {
+          state.list.splice(existingItemIndex, 1)
         }
     },
 }})
 
-export const {cartAddItem, cartRemoveItem, increaseCartItemQty, decreaseCartItemQty } = myslice.actions
-export default myslice.reducer
+export const {cartAddItem, fetchCartItemsError, fetchCartItems, loadCartItems, cartRemoveItem, increaseCartItemQty, decreaseCartItemQty } = slice.actions
+export default slice.reducer

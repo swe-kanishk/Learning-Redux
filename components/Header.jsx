@@ -1,11 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import CartIcon from '../assets/cart-icon.svg'
-import { useSelector } from '../react-redux'
+import { useDispatch, useSelector } from '../react-redux'
+import { fetchProducts, fetchProductsError, updateAllProducts } from '../store/slices/productsSlice'
+import { fetchCartItems, fetchCartItemsError, loadCartItems } from '../store/slices/cartSlice'
 
 export default function Header() {
-  const cartItems = useSelector((state) => state.cartItems)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchProducts())
+    fetch('https://fakestoreapi.com/products')
+    .then((res) => res.json())
+    .then((data) => dispatch(updateAllProducts(data)))
+    .catch((error) => {
+      dispatch(fetchProductsError(error.message))
+    })
+
+    dispatch(fetchCartItems())
+    fetch('https://fakestoreapi.com/carts/5')
+    .then((res) => res.json())
+    .then(data => dispatch(loadCartItems(data)))
+    .catch((error) => {
+      dispatch(fetchCartItemsError(error.message))
+    })
+
+  }, [])
+
+  const cartItems = useSelector((state) => state.cartItems.list)
   const totalItemsInCart = cartItems.reduce((total, item) => total + item.quantity, 0)
+
   return (
     <header>
       <div className="header-contents">
