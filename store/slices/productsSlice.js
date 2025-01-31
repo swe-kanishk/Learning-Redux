@@ -26,5 +26,16 @@ export const getAllProducts = (state) => state.products.list
 export const getProductLoadingState = (state) => state.products.loading
 export const getProductError = (state) => state.products.error
 
-export const { updateAllProducts, fetchProducts, fetchProductsError } = slice.actions
+const { updateAllProducts, fetchProducts, fetchProductsError } = slice.actions
+
+export const fetchProductsData = () => (dispatch) => {
+    dispatch(fetchProducts());
+    fetch(`https://fakestoreapi.com/products`)
+      .then((res) => res.json())
+      .then((data) => dispatch(updateAllProducts(data)))
+      .catch((error) => {
+        dispatch(fetchProductsError(error.message));
+      });
+  };
+
 export default slice.reducer
