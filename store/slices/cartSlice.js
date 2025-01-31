@@ -33,8 +33,10 @@ const slice = createSlice({
       state.list.splice(existingItemIndex, 1)
     },
     increaseCartItemQty(state, action) {
+      
       const existingItemIndex = findExistingItemIndex(state.list, action)
       state.list[existingItemIndex].quantity += 1;
+      console.log(JSON.parse(JSON.stringify(state.list[existingItemIndex].quantity)))
     },
     decreaseCartItemQty(state, action) {
       const existingItemIndex = findExistingItemIndex(state.list, action)
@@ -46,15 +48,15 @@ const slice = createSlice({
 }})
 
 const getCartItems = ({products, cartItems}) => {
-    return cartItems.list.map(({productId}) => {
+    return cartItems.list.map(({productId, quantity}) => {
       const cartProduct = products.list.find((product) => product.id === productId)
-      return {...cartProduct, quantity: 1}
+      return {...cartProduct, quantity}
     }).filter(({title}) => title)
 }
+
+export const getAllCartItems = createSelector(getCartItems, (cartItems) => cartItems)
 export const getCartLoadingState = (state) => state.cartItems.loading
 export const getCartError = (state) => state.cartItems.error
-
-export const getAllCartItems = createSelector(getCartItems, state => state)
 
 export const {cartAddItem, fetchCartItemsError, fetchCartItems, loadCartItems, cartRemoveItem, increaseCartItemQty, decreaseCartItemQty } = slice.actions
 export default slice.reducer

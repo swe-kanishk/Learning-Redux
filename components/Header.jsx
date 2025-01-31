@@ -4,7 +4,7 @@ import CartIcon from '../assets/cart-icon.svg'
 import { useDispatch, useSelector } from '../react-redux'
 import { fetchProducts, fetchProductsError, updateAllProducts } from '../store/slices/productsSlice'
 import { fetchCartItems, fetchCartItemsError, loadCartItems } from '../store/slices/cartSlice'
-import { fetchData } from '../store/middlewares/api'
+import { fetchData } from '../store/middleware/api'
 
 export default function Header() {
   const dispatch = useDispatch()
