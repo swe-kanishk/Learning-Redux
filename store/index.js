@@ -3,6 +3,7 @@ import wishlistSlice from "./slices/wishlistReducer";
 import productsSlice from "./slices/productsSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { logger } from "./middlewares/logger";
+import { apiMiddleware } from "./middlewares/api";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,5 @@ export const store = configureStore({
     cartItems: cartSlice,
     wishlist: wishlistSlice,
   },
-  // middleware: () => [logger]
+  middleware: () => [apiMiddleware]
 });
