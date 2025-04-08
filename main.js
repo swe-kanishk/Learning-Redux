@@ -24,7 +24,7 @@ const router = createBrowserRouter([
 ])
 
 createRoot(document.querySelector('#root')).render(
-  <Provider store={store}>
+  <Provider store={store} >
     <RouterProvider router={router} />
   </Provider>
 )
